@@ -25,14 +25,14 @@ const mockRequestData = {
   status: "PENDING_GA_APPROVAL"
 };
 
-export default function GAApprovalPage({ params }: { params: { id: string } }) {
+export default function GAApprovalPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [vehicleCategory, setVehicleCategory] = useState<"OPERATIONAL" | "CONVENTIONAL" | "ONLINE">("OPERATIONAL");
   
   const { register, handleSubmit } = useForm();
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: Record<string, unknown>) => {
     setIsSubmitting(true);
     try {
       // MOCK API CALL

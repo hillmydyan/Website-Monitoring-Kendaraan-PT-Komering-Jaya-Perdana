@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useDatabase, DUMMY_GA_SIGNATURE } from "@/components/providers/DatabaseProvider";
-import { FileText, CheckCircle, Settings, ClipboardCheck } from "lucide-react";
+import { FileText, Settings, ClipboardCheck } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 

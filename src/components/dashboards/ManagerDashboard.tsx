@@ -14,7 +14,6 @@ export default function ManagerDashboard() {
   // 2. PENDING_MANAGER_INSPECTION -> review -> auto stamp manager -> to FULLY_COMPLETED
 
   const pendingRequests = requests.filter(r => r.status === 'PENDING_MANAGER_REQUEST' || r.status === 'PENDING_MANAGER_INSPECTION');
-  const historyRequests = requests.filter(r => !['PENDING_MANAGER_REQUEST', 'PENDING_MANAGER_INSPECTION'].includes(r.status));
 
   return (
     <div className="space-y-8 animate-in fade-in duration-500">

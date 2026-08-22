@@ -5,7 +5,6 @@ import { TransportRequestPDF } from '@/components/pdf/TransportRequestPDF';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useDatabase } from '@/components/providers/DatabaseProvider';
-import { TransportRequest } from '@/lib/types';
 
 export default function PDFPreview() {
   const [isClient, setIsClient] = useState(false);
@@ -14,6 +13,7 @@ export default function PDFPreview() {
   const { getRequestById } = useDatabase();
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsClient(true);
   }, []);
 
@@ -43,7 +43,7 @@ export default function PDFPreview() {
     manager_inspection_signature_url: req.status === 'FULLY_COMPLETED' ? req.manager_inspection_signature_url : '',
     
     // Convert undefined to empty strings to satisfy type
-    vehicle_category: req.vehicle_category || '',
+    vehicle_category: (req.vehicle_category || '') as "" | "OPERATIONAL" | "CONVENTIONAL" | "ONLINE",
     vehicle_type: req.vehicle_type || '',
     license_plate: req.license_plate || '',
     ga_signature_url: req.ga_signature_url || '',

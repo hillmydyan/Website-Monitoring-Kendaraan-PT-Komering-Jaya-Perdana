@@ -67,6 +67,7 @@ export function DatabaseProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const saved = localStorage.getItem('transport_requests');
     if (saved) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setRequests(JSON.parse(saved));
     }
     

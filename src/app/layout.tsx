@@ -4,7 +4,6 @@ import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
 import { DatabaseProvider } from "@/components/providers/DatabaseProvider";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
-import { Toaster } from "@/components/ui/toast";
 
 const inter = Inter({ subsets: ["latin"] });
 

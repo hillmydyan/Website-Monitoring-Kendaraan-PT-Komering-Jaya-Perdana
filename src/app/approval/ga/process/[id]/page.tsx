@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, use } from "react";
+import { useState, use, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useDatabase, DUMMY_GA_SIGNATURE } from "@/components/providers/DatabaseProvider";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
@@ -18,7 +18,12 @@ export default function GAProcessPage({ params }: { params: Promise<{ id: string
   const [category, setCategory] = useState<'OPERATIONAL' | 'CONVENTIONAL' | 'ONLINE'>('OPERATIONAL');
   const [vehicleType, setVehicleType] = useState("");
   const [licensePlate, setLicensePlate] = useState("");
-  const [requestNumber, setRequestNumber] = useState(`REQ-${new Date().getFullYear()}-${Math.floor(Math.random() * 1000)}`);
+  const [requestNumber, setRequestNumber] = useState("");
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setRequestNumber(`REQ-${new Date().getFullYear()}-${Math.floor(Math.random() * 1000)}`);
+  }, []);
   
   if (!req) return <div className="p-8 text-center text-red-500">Pengajuan tidak ditemukan.</div>;
 

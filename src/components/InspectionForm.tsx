@@ -10,7 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { Eraser, Loader2, ChevronLeft } from "lucide-react";
+import { Eraser, Loader2 } from "lucide-react";
 
 export function InspectionForm({ id }: { id: string }) {
   const { getRequestById, updateRequestStatus } = useDatabase();
