@@ -133,7 +133,11 @@ export function DatabaseProvider({ children }: { children: React.ReactNode }) {
       submitted_at: new Date().toISOString(),
     };
     setRequests(prev => [newReq, ...prev]);
-    await supabase.from('transport_requests').insert(newReq);
+    const { error } = await supabase.from('transport_requests').insert(newReq);
+    if (error) {
+      console.error("Supabase Error (addRequest):", error);
+      alert("Gagal menyimpan ke database: " + error.message);
+    }
   };
 
   const updateRequestStatus = async (id: string, status: RequestStatus, updates?: Partial<TransportRequest>) => {
@@ -143,7 +147,11 @@ export function DatabaseProvider({ children }: { children: React.ReactNode }) {
       }
       return req;
     }));
-    await supabase.from('transport_requests').update({ ...updates, status }).eq('id', id);
+    const { error } = await supabase.from('transport_requests').update({ ...updates, status }).eq('id', id);
+    if (error) {
+      console.error("Supabase Error (updateRequestStatus):", error);
+      alert("Gagal mengupdate database: " + error.message);
+    }
   };
 
   const getRequestById = (id: string) => {
@@ -152,7 +160,8 @@ export function DatabaseProvider({ children }: { children: React.ReactNode }) {
 
   const deleteRequest = async (id: string) => {
     setRequests(prev => prev.filter(req => req.id !== id));
-    await supabase.from('transport_requests').delete().eq('id', id);
+    const { error } = await supabase.from('transport_requests').delete().eq('id', id);
+    if (error) alert("Gagal menghapus request: " + error.message);
   };
 
   const addUser = async (user: Omit<UserAccount, 'id'>) => {
@@ -161,13 +170,18 @@ export function DatabaseProvider({ children }: { children: React.ReactNode }) {
       id: crypto.randomUUID(),
     };
     setUsers(prev => [...prev, newUser]);
-    await supabase.from('users').insert(newUser);
+    const { error } = await supabase.from('users').insert(newUser);
+    if (error) {
+      console.error("Supabase Error (addUser):", error);
+      alert("Gagal menambah user ke database: " + error.message);
+    }
   };
 
   const deleteUser = async (id: string) => {
     if (users.find(u => u.id === id)?.username === 'admin') return;
     setUsers(prev => prev.filter(user => user.id !== id));
-    await supabase.from('users').delete().eq('id', id);
+    const { error } = await supabase.from('users').delete().eq('id', id);
+    if (error) alert("Gagal menghapus user: " + error.message);
   };
 
   const changePassword = async (id: string, newPassword: string) => {
@@ -177,7 +191,8 @@ export function DatabaseProvider({ children }: { children: React.ReactNode }) {
       }
       return user;
     }));
-    await supabase.from('users').update({ password: newPassword }).eq('id', id);
+    const { error } = await supabase.from('users').update({ password: newPassword }).eq('id', id);
+    if (error) alert("Gagal mengubah password: " + error.message);
   };
 
   const updateSignature = async (signatureDataUrl: string) => {
@@ -192,7 +207,8 @@ export function DatabaseProvider({ children }: { children: React.ReactNode }) {
     
     setCurrentUser(prev => prev ? { ...prev, signature: signatureDataUrl } : null);
     
-    await supabase.from('users').update({ signature: signatureDataUrl }).eq('username', currentUser.username);
+    const { error } = await supabase.from('users').update({ signature: signatureDataUrl }).eq('username', currentUser.username);
+    if (error) alert("Gagal menyimpan tanda tangan: " + error.message);
   };
 
   return (
