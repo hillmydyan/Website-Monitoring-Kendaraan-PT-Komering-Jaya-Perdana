@@ -301,22 +301,7 @@ export default function AdminPage() {
         </CardContent>
       </Card>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Integrasi Database (Supabase)</CardTitle>
-          <CardDescription>Status koneksi ke server awan (PostgreSQL).</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="bg-slate-100 p-4 rounded-lg border border-slate-200">
-            <p className="text-sm text-slate-600">
-              Saat ini aplikasi berjalan menggunakan <strong>Local Storage (Mock DB)</strong> sebagai fallback karena variabel lingkungan <code className="bg-white px-1 py-0.5 rounded text-pink-600">NEXT_PUBLIC_SUPABASE_URL</code> belum dikonfigurasi.
-            </p>
-            <p className="text-sm text-slate-600 mt-2">
-              Untuk mengaktifkan sinkronisasi database asli, isi file <code className="bg-white px-1 py-0.5 rounded">.env.local</code> dengan kredensial Supabase Anda.
-            </p>
-          </div>
-        </CardContent>
-      </Card>
+
     </div>
   );
 }
