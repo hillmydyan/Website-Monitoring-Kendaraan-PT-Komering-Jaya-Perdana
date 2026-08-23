@@ -68,14 +68,6 @@ export default function GAProcessPage({ params }: { params: Promise<{ id: string
                   <input type="radio" name="cat" checked={category === 'OPERATIONAL'} onChange={() => setCategory('OPERATIONAL')} />
                   Kendaraan Operasional
                 </label>
-                <label className="flex items-center gap-2">
-                  <input type="radio" name="cat" checked={category === 'CONVENTIONAL'} onChange={() => setCategory('CONVENTIONAL')} />
-                  Transportasi Konvensional (Bis, Taksi, dll)
-                </label>
-                <label className="flex items-center gap-2">
-                  <input type="radio" name="cat" checked={category === 'ONLINE'} onChange={() => setCategory('ONLINE')} />
-                  Transportasi Online (Taksi, Ojek, dll)
-                </label>
               </div>
             </div>
 

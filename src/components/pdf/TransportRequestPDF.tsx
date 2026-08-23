@@ -246,14 +246,7 @@ export const TransportRequestPDF: React.FC<TransportRequestPDFProps> = ({ data }
             <View style={{ borderBottomWidth: 1, width: 100, marginLeft: 5 }}><Text style={{ position: 'absolute', bottom: 1 }}>{data.license_plate}</Text></View>
           </View>
 
-          <View style={{ flexDirection: 'row', marginBottom: 4 }}>
-            {renderCheckbox(data.vehicle_category === 'CONVENTIONAL')}
-            <Text style={{ marginLeft: 4 }}>Transportasi Konvensional (Bis, Taksi, dll)</Text>
-          </View>
-          <View style={{ flexDirection: 'row' }}>
-            {renderCheckbox(data.vehicle_category === 'ONLINE')}
-            <Text style={{ marginLeft: 4 }}>Transportasi Online (Taksi, Ojek, dll)</Text>
-          </View>
+
         </View>
       </View>
 
