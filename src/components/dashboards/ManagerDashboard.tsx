@@ -18,12 +18,13 @@ export default function ManagerDashboard() {
 
   return (
     <div className="space-y-8 animate-in fade-in duration-500">
-      <div>
-        <h1 className="text-2xl font-bold text-slate-800">Dashboard Manager (HROGA)</h1>
-        <p className="text-slate-500">Persetujuan akhir untuk pengajuan dan penyelesaian transportasi.</p>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-bold text-slate-800">Dashboard Manager (HROGA)</h1>
+          <p className="text-slate-500">Persetujuan akhir untuk pengajuan dan penyelesaian transportasi.</p>
+        </div>
+        <SetSignatureCard />
       </div>
-
-      <SetSignatureCard />
 
       <div className="space-y-4">
         <h2 className="text-lg font-semibold text-slate-700 flex items-center gap-2">
