@@ -24,7 +24,7 @@ export default function GAProcessPage({ params }: { params: Promise<{ id: string
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setRequestNumber(`REQ-${new Date().getFullYear()}-${Math.floor(Math.random() * 1000)}`);
   }, []);
-  
+
   if (!req) return <div className="p-8 text-center text-red-500">Pengajuan tidak ditemukan.</div>;
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -67,6 +67,14 @@ export default function GAProcessPage({ params }: { params: Promise<{ id: string
                 <label className="flex items-center gap-2">
                   <input type="radio" name="cat" checked={category === 'OPERATIONAL'} onChange={() => setCategory('OPERATIONAL')} />
                   Kendaraan Operasional
+                </label>
+                <label className="flex items-center gap-2">
+                  <input type="radio" name="cat" checked={category === 'CONVENTIONAL'} onChange={() => setCategory('CONVENTIONAL')} />
+                  Transportasi Konvensional (Bis, Taksi, dll)
+                </label>
+                <label className="flex items-center gap-2">
+                  <input type="radio" name="cat" checked={category === 'ONLINE'} onChange={() => setCategory('ONLINE')} />
+                  Transportasi Online (Taksi, Ojek, dll)
                 </label>
               </div>
             </div>
