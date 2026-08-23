@@ -19,8 +19,8 @@ export function Navbar() {
             <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-500 shadow-lg shadow-blue-500/30">
               <Truck className="text-white w-5 h-5" />
             </div>
-            <Link href="/" className="font-bold text-lg sm:text-xl tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-600 dark:from-white dark:to-slate-300">
-              TransportPortal
+            <Link href="/" className="font-bold text-base sm:text-lg lg:text-xl tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-600 dark:from-white dark:to-slate-300 truncate max-w-[150px] sm:max-w-[300px] lg:max-w-none">
+              Monitoring Kendaraan PT Komering Jaya Perdana
             </Link>
           </div>
           <div className="flex items-center gap-2 sm:gap-4">

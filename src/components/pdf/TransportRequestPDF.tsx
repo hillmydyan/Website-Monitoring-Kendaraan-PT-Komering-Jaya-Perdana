@@ -105,10 +105,16 @@ const styles = StyleSheet.create({
     padding: 2,
   },
   signatureBox: {
-    height: 40,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    padding: 2,
+    height: 45,
+    position: 'relative',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  signatureDate: {
+    position: 'absolute',
+    top: 2,
+    left: 2,
+    fontSize: 7,
   },
   signatureFooter: {
     textAlign: 'center',
@@ -256,8 +262,8 @@ export const TransportRequestPDF: React.FC<TransportRequestPDFProps> = ({ data }
         <View style={styles.signatureCell}>
           <Text style={styles.signatureHeader}>Diajukan oleh,</Text>
           <View style={styles.signatureBox}>
-            <Text style={{ fontSize: 8 }}>Tgl,</Text>
-            {data.user_signature_url ? <Image src={data.user_signature_url} style={{ width: 70, height: 30, alignSelf: 'center' }} /> : null}
+            <Text style={styles.signatureDate}>Tgl,</Text>
+            {data.user_signature_url ? <Image src={data.user_signature_url} style={{ width: 70, height: 30 }} /> : null}
           </View>
           <Text style={styles.signatureFooter}>(                                                 )</Text>
           <Text style={[styles.signatureFooter, { borderTopWidth: 0 }]}>Karyawan / Dept. Head</Text>
@@ -265,8 +271,8 @@ export const TransportRequestPDF: React.FC<TransportRequestPDFProps> = ({ data }
         <View style={styles.signatureCell}>
           <Text style={styles.signatureHeader}>Diketahui oleh,</Text>
           <View style={styles.signatureBox}>
-            <Text style={{ fontSize: 7 }}>Tgl,</Text>
-            {data.ga_signature_url ? <Image src={data.ga_signature_url} style={{ width: 70, height: 30, alignSelf: 'center' }} /> : null}
+            <Text style={styles.signatureDate}>Tgl,</Text>
+            {data.ga_signature_url ? <Image src={data.ga_signature_url} style={{ width: 70, height: 30 }} /> : null}
           </View>
           <Text style={styles.signatureFooter}>(                                                 )</Text>
           <Text style={[styles.signatureFooter, { borderTopWidth: 0 }]}>PIC GA / Personalia</Text>
@@ -274,8 +280,8 @@ export const TransportRequestPDF: React.FC<TransportRequestPDFProps> = ({ data }
         <View style={styles.signatureCellLast}>
           <Text style={styles.signatureHeader}>Disetujui oleh,</Text>
           <View style={styles.signatureBox}>
-            <Text style={{ fontSize: 7 }}>Tgl,</Text>
-            {data.manager_signature_url ? <Image src={data.manager_signature_url} style={{ width: 70, height: 30, alignSelf: 'center' }} /> : null}
+            <Text style={styles.signatureDate}>Tgl,</Text>
+            {data.manager_signature_url ? <Image src={data.manager_signature_url} style={{ width: 70, height: 30 }} /> : null}
           </View>
           <Text style={styles.signatureFooter}>(                                                 )</Text>
           <Text style={[styles.signatureFooter, { borderTopWidth: 0 }]}>HROGA Dept Head / Manager Kantor / Kepala Depo</Text>
@@ -347,8 +353,8 @@ export const TransportRequestPDF: React.FC<TransportRequestPDFProps> = ({ data }
         <View style={styles.signatureCell}>
           <Text style={styles.signatureHeader}>Dibuat oleh,</Text>
           <View style={styles.signatureBox}>
-            <Text style={{ fontSize: 7 }}>Tgl,</Text>
-            {data.user_inspection_signature_url ? <Image src={data.user_inspection_signature_url} style={{ width: 70, height: 30, alignSelf: 'center' }} /> : null}
+            <Text style={styles.signatureDate}>Tgl,</Text>
+            {data.user_inspection_signature_url ? <Image src={data.user_inspection_signature_url} style={{ width: 70, height: 30 }} /> : null}
           </View>
           <Text style={styles.signatureFooter}>(                                                 )</Text>
           <Text style={[styles.signatureFooter, { borderTopWidth: 0 }]}>Karyawan / Pemakai</Text>
@@ -356,8 +362,8 @@ export const TransportRequestPDF: React.FC<TransportRequestPDFProps> = ({ data }
         <View style={styles.signatureCell}>
           <Text style={styles.signatureHeader}>Diketahui oleh,</Text>
           <View style={styles.signatureBox}>
-            <Text style={{ fontSize: 7 }}>Tgl,</Text>
-            {data.ga_inspection_signature_url ? <Image src={data.ga_inspection_signature_url} style={{ width: 70, height: 30, alignSelf: 'center' }} /> : null}
+            <Text style={styles.signatureDate}>Tgl,</Text>
+            {data.ga_inspection_signature_url ? <Image src={data.ga_inspection_signature_url} style={{ width: 70, height: 30 }} /> : null}
           </View>
           <Text style={styles.signatureFooter}>(                                                 )</Text>
           <Text style={[styles.signatureFooter, { borderTopWidth: 0 }]}>PIC GA / Personalia</Text>
@@ -365,8 +371,8 @@ export const TransportRequestPDF: React.FC<TransportRequestPDFProps> = ({ data }
         <View style={styles.signatureCellLast}>
           <Text style={styles.signatureHeader}>Disetujui oleh,</Text>
           <View style={styles.signatureBox}>
-            <Text style={{ fontSize: 7 }}>Tgl,</Text>
-            {data.manager_inspection_signature_url ? <Image src={data.manager_inspection_signature_url} style={{ width: 70, height: 30, alignSelf: 'center' }} /> : null}
+            <Text style={styles.signatureDate}>Tgl,</Text>
+            {data.manager_inspection_signature_url ? <Image src={data.manager_inspection_signature_url} style={{ width: 70, height: 30 }} /> : null}
           </View>
           <Text style={styles.signatureFooter}>(                                                 )</Text>
           <Text style={[styles.signatureFooter, { borderTopWidth: 0 }]}>HROGA Dept Head / Manager Kantor / Kepala Depo</Text>

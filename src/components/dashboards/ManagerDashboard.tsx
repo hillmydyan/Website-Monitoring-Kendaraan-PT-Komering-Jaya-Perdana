@@ -1,13 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { useDatabase, DUMMY_MANAGER_SIGNATURE } from "@/components/providers/DatabaseProvider";
+import { useDatabase } from "@/components/providers/DatabaseProvider";
 import { FileText, ShieldCheck, CheckCircle2 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { SetSignatureCard } from "./SetSignatureCard";
 
 export default function ManagerDashboard() {
-  const { requests, updateRequestStatus } = useDatabase();
+  const { requests, updateRequestStatus, currentUser } = useDatabase();
 
   // Tasks for Manager:
   // 1. PENDING_MANAGER_REQUEST -> review -> auto stamp manager -> to REQUEST_APPROVED
@@ -21,6 +22,8 @@ export default function ManagerDashboard() {
         <h1 className="text-2xl font-bold text-slate-800">Dashboard Manager (HROGA)</h1>
         <p className="text-slate-500">Persetujuan akhir untuk pengajuan dan penyelesaian transportasi.</p>
       </div>
+
+      <SetSignatureCard />
 
       <div className="space-y-4">
         <h2 className="text-lg font-semibold text-slate-700 flex items-center gap-2">
@@ -55,7 +58,13 @@ export default function ManagerDashboard() {
 
                   {req.status === 'PENDING_MANAGER_REQUEST' && (
                     <Button 
-                      onClick={() => updateRequestStatus(req.id, 'REQUEST_APPROVED', { manager_signature_url: DUMMY_MANAGER_SIGNATURE })}
+                      onClick={() => {
+                        if (!currentUser?.signature) {
+                          alert("Mohon set tanda tangan Anda terlebih dahulu di bagian atas halaman.");
+                          return;
+                        }
+                        updateRequestStatus(req.id, 'REQUEST_APPROVED', { manager_signature_url: currentUser.signature });
+                      }}
                       className="bg-indigo-600 hover:bg-indigo-700 text-white h-8 text-sm"
                     >
                       <CheckCircle2 className="w-4 h-4 mr-2" /> ACC Pengajuan & Stamp
@@ -64,7 +73,13 @@ export default function ManagerDashboard() {
 
                   {req.status === 'PENDING_MANAGER_INSPECTION' && (
                     <Button 
-                      onClick={() => updateRequestStatus(req.id, 'FULLY_COMPLETED', { manager_inspection_signature_url: DUMMY_MANAGER_SIGNATURE })}
+                      onClick={() => {
+                        if (!currentUser?.signature) {
+                          alert("Mohon set tanda tangan Anda terlebih dahulu di bagian atas halaman.");
+                          return;
+                        }
+                        updateRequestStatus(req.id, 'FULLY_COMPLETED', { manager_inspection_signature_url: currentUser.signature });
+                      }}
                       className="bg-green-600 hover:bg-green-700 text-white h-8 text-sm"
                     >
                       <CheckCircle2 className="w-4 h-4 mr-2" /> Selesaikan & Stamp (FULLY COMPLETED)

@@ -42,7 +42,7 @@ export default function LoginPage() {
             <Truck className="text-white w-8 h-8" />
           </div>
           <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-600">
-            Transport Portal
+            Monitoring Kendaraan PT Komering Jaya Perdana
           </h1>
           <p className="text-slate-500 text-sm mt-1">Masuk untuk mengelola fasilitas transportasi</p>
         </div>
@@ -98,30 +98,7 @@ export default function LoginPage() {
           </Button>
         </form>
 
-        <div className="mt-8 pt-6 border-t border-slate-200">
-          <p className="text-xs text-slate-500 font-medium mb-3 text-center">AKUN DEMO YANG TERSEDIA:</p>
-          <div className="grid grid-cols-3 gap-2">
-            <div className="bg-slate-100 p-2 rounded-lg text-center cursor-pointer hover:bg-slate-200 transition-colors" onClick={() => {setUsername('employee'); setPassword('123')}}>
-              <p className="text-[10px] text-slate-400 font-semibold uppercase">Karyawan</p>
-              <p className="text-xs font-medium text-slate-700 mt-0.5">employee</p>
-            </div>
-            <div className="bg-slate-100 p-2 rounded-lg text-center cursor-pointer hover:bg-slate-200 transition-colors" onClick={() => {setUsername('ga'); setPassword('123')}}>
-              <p className="text-[10px] text-slate-400 font-semibold uppercase">PIC GA</p>
-              <p className="text-xs font-medium text-slate-700 mt-0.5">ga</p>
-            </div>
-            <div className="bg-slate-100 p-2 rounded-lg text-center cursor-pointer hover:bg-slate-200 transition-colors" onClick={() => {setUsername('manager'); setPassword('123')}}>
-              <p className="text-[10px] text-slate-400 font-semibold uppercase">Manager</p>
-              <p className="text-xs font-medium text-slate-700 mt-0.5">manager</p>
-            </div>
-          </div>
-          <div className="grid grid-cols-2 gap-2 mt-2">
-            <div className="bg-slate-100 p-2 rounded-lg text-center cursor-pointer hover:bg-slate-200 transition-colors" onClick={() => {setUsername('admin'); setPassword('123')}}>
-              <p className="text-[10px] text-slate-400 font-semibold uppercase">System Admin</p>
-              <p className="text-xs font-medium text-slate-700 mt-0.5">admin</p>
-            </div>
-          </div>
-          <p className="text-center text-[10px] text-slate-400 mt-2">*Password untuk semua akun: 123</p>
-        </div>
+
       </div>
     </div>
   );

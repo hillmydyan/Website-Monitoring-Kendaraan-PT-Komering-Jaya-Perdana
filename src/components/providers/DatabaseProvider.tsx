@@ -7,6 +7,7 @@ export interface UserSession {
   username: string;
   name: string;
   role: Role;
+  signature?: string;
 }
 
 export interface UserAccount {
@@ -16,12 +17,10 @@ export interface UserAccount {
   name: string;
   role: Role;
   department?: string;
+  signature?: string;
 }
 
 const DEFAULT_USERS: UserAccount[] = [
-  { id: '1', username: 'employee', password: '123', name: 'Budi Santoso', role: 'EMPLOYEE', department: 'IT' },
-  { id: '2', username: 'ga', password: '123', name: 'Agus (GA)', role: 'GA_PIC', department: 'HR & GA' },
-  { id: '3', username: 'manager', password: '123', name: 'Ibu Ratna (Mgr)', role: 'MANAGER', department: 'HR & GA' },
   { id: '4', username: 'admin', password: '123', name: 'System Admin', role: 'ADMIN', department: 'IT' },
 ];
 
@@ -46,13 +45,11 @@ interface MockDBContextType {
   addUser: (user: Omit<UserAccount, 'id'>) => void;
   deleteUser: (id: string) => void;
   changePassword: (id: string, newPassword: string) => void;
+  updateSignature: (signatureDataUrl: string) => void;
 }
 
 const MockDBContext = createContext<MockDBContextType | undefined>(undefined);
 
-// Dummy Signatures for Auto-stamp
-export const DUMMY_GA_SIGNATURE = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg=='; // Replace with a real base64 stamp later if needed
-export const DUMMY_MANAGER_SIGNATURE = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==';
 
 export function DatabaseProvider({ children }: { children: React.ReactNode }) {
   const [role, setRole] = useState<Role>('EMPLOYEE');
@@ -112,7 +109,12 @@ export function DatabaseProvider({ children }: { children: React.ReactNode }) {
 
     // Dummy authentication logic: check plain text password
     if (foundUser && foundUser.password === pass) {
-      const userSession = { username: foundUser.username, name: foundUser.name, role: foundUser.role };
+      const userSession = { 
+        username: foundUser.username, 
+        name: foundUser.name, 
+        role: foundUser.role,
+        signature: foundUser.signature
+      };
       setCurrentUser(userSession);
       setRole(foundUser.role);
       return true;
@@ -176,11 +178,26 @@ export function DatabaseProvider({ children }: { children: React.ReactNode }) {
     }));
   };
 
+  const updateSignature = (signatureDataUrl: string) => {
+    if (!currentUser) return;
+    
+    // Update user in DB
+    setUsers(prev => prev.map(user => {
+      if (user.username === currentUser.username) {
+        return { ...user, signature: signatureDataUrl };
+      }
+      return user;
+    }));
+    
+    // Update session
+    setCurrentUser(prev => prev ? { ...prev, signature: signatureDataUrl } : null);
+  };
+
   return (
     <MockDBContext.Provider value={{ 
       role, setRole, requests, addRequest, updateRequestStatus, deleteRequest, getRequestById,
       currentUser, isLoggedIn, isAuthLoaded, login, logout,
-      users, addUser, deleteUser, changePassword
+      users, addUser, deleteUser, changePassword, updateSignature
     }}>
       {children}
     </MockDBContext.Provider>

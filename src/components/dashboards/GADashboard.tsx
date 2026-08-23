@@ -1,13 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { useDatabase, DUMMY_GA_SIGNATURE } from "@/components/providers/DatabaseProvider";
+import { useDatabase } from "@/components/providers/DatabaseProvider";
 import { FileText, Settings, ClipboardCheck } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { SetSignatureCard } from "./SetSignatureCard";
 
 export default function GADashboard() {
-  const { requests, updateRequestStatus } = useDatabase();
+  const { requests, updateRequestStatus, currentUser } = useDatabase();
 
   // Tasks for GA:
   // 1. PENDING_GA_REQUEST -> fill vehicle details & auto stamp GA -> to PENDING_MANAGER_REQUEST
@@ -22,6 +23,8 @@ export default function GADashboard() {
         <h1 className="text-2xl font-bold text-slate-800">Dashboard General Affairs (GA)</h1>
         <p className="text-slate-500">Antrean persetujuan dan pengelolaan kendaraan operasional.</p>
       </div>
+
+      <SetSignatureCard />
 
       <div className="space-y-4">
         <h2 className="text-lg font-semibold text-slate-700 flex items-center gap-2">
@@ -64,7 +67,13 @@ export default function GADashboard() {
 
                   {req.status === 'PENDING_GA_INSPECTION' && (
                     <Button 
-                      onClick={() => updateRequestStatus(req.id, 'PENDING_MANAGER_INSPECTION', { ga_inspection_signature_url: DUMMY_GA_SIGNATURE })}
+                      onClick={() => {
+                        if (!currentUser?.signature) {
+                          alert("Mohon set tanda tangan Anda terlebih dahulu di bagian atas halaman.");
+                          return;
+                        }
+                        updateRequestStatus(req.id, 'PENDING_MANAGER_INSPECTION', { ga_inspection_signature_url: currentUser.signature });
+                      }}
                       className="bg-green-600 hover:bg-green-700 text-white h-8 text-sm"
                     >
                       <ClipboardCheck className="w-4 h-4 mr-2" /> ACC Pemeriksaan & Stamp TTD

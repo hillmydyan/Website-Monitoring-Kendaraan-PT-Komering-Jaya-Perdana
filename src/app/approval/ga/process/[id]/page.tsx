@@ -2,7 +2,7 @@
 
 import { useState, use, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useDatabase, DUMMY_GA_SIGNATURE } from "@/components/providers/DatabaseProvider";
+import { useDatabase } from "@/components/providers/DatabaseProvider";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -12,7 +12,7 @@ import { CheckCircle2, ChevronLeft } from "lucide-react";
 export default function GAProcessPage({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter();
   const { id } = use(params);
-  const { getRequestById, updateRequestStatus } = useDatabase();
+  const { getRequestById, updateRequestStatus, currentUser } = useDatabase();
   const req = getRequestById(id);
 
   const [category, setCategory] = useState<'OPERATIONAL' | 'CONVENTIONAL' | 'ONLINE'>('OPERATIONAL');
@@ -29,12 +29,16 @@ export default function GAProcessPage({ params }: { params: Promise<{ id: string
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!currentUser?.signature) {
+      alert("Mohon set tanda tangan Anda terlebih dahulu di dashboard GA.");
+      return;
+    }
     updateRequestStatus(req.id, 'PENDING_MANAGER_REQUEST', {
       vehicle_category: category,
       vehicle_type: vehicleType,
       license_plate: licensePlate,
       request_number: requestNumber,
-      ga_signature_url: DUMMY_GA_SIGNATURE,
+      ga_signature_url: currentUser.signature,
     });
     router.push('/');
   };

@@ -8,7 +8,7 @@ import { ProtectedRoute } from "@/components/ProtectedRoute";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Transport Request Portal",
+  title: "Monitoring Kendaraan PT Komering Jaya Perdana",
   description: "Digitalisasi pengajuan fasilitas transportasi operasional",
 };
 
