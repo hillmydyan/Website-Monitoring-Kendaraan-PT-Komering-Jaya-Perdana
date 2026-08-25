@@ -45,6 +45,7 @@ interface MockDBContextType {
   deleteUser: (id: string) => void;
   changePassword: (id: string, newPassword: string) => void;
   updateSignature: (signatureDataUrl: string) => void;
+  loginAsEmployee: () => void;
 }
 
 const MockDBContext = createContext<MockDBContextType | undefined>(undefined);
@@ -118,6 +119,16 @@ export function DatabaseProvider({ children }: { children: React.ReactNode }) {
       return true;
     }
     return false;
+  };
+
+  const loginAsEmployee = () => {
+    const guestSession: UserSession = {
+      username: 'employee_guest',
+      name: 'Karyawan',
+      role: 'EMPLOYEE'
+    };
+    setCurrentUser(guestSession);
+    setRole('EMPLOYEE');
   };
 
   const logout = () => {
@@ -211,7 +222,7 @@ export function DatabaseProvider({ children }: { children: React.ReactNode }) {
   return (
     <MockDBContext.Provider value={{ 
       role, setRole, requests, addRequest, updateRequestStatus, deleteRequest, getRequestById,
-      currentUser, isLoggedIn, isAuthLoaded, login, logout,
+      currentUser, isLoggedIn, isAuthLoaded, login, logout, loginAsEmployee,
       users, addUser, deleteUser, changePassword, updateSignature
     }}>
       {children}
