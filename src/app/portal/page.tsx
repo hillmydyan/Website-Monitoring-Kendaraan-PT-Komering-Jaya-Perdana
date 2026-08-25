@@ -19,15 +19,16 @@ export default function PortalPage() {
   };
 
   return (
-    <div className="min-h-screen relative flex flex-col items-center justify-center bg-slate-50 p-4 sm:p-8">
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-50">
       {/* Decorative background - fixed so it doesn't break on scroll */}
       <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
         <div className="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] rounded-full bg-blue-200/40 blur-[100px]"></div>
         <div className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] rounded-full bg-indigo-200/40 blur-[100px]"></div>
       </div>
 
-      <div className="relative z-10 w-full max-w-5xl py-8 sm:py-12 animate-in fade-in zoom-in-95 duration-500">
-        <div className="flex flex-col items-center mb-10 md:mb-12 text-center">
+      <div className="min-h-full w-full flex flex-col items-center justify-center p-4 sm:p-8">
+        <div className="relative z-10 w-full max-w-5xl py-8 sm:py-12 animate-in fade-in zoom-in-95 duration-500">
+          <div className="flex flex-col items-center mb-10 md:mb-12 text-center">
           <div className="flex items-center justify-center w-20 h-20 rounded-3xl bg-gradient-to-tr from-blue-600 to-indigo-500 shadow-xl shadow-blue-500/30 mb-6">
             <Truck className="text-white w-10 h-10" />
           </div>
@@ -81,6 +82,7 @@ export default function PortalPage() {
               <p className="text-slate-500">Masuk sebagai Manager Kantor untuk menyetujui atau menolak pengajuan</p>
             </div>
           </Card>
+        </div>
         </div>
       </div>
     </div>

@@ -46,16 +46,17 @@ function LoginForm() {
   };
 
   return (
-    <div className="min-h-screen relative flex flex-col items-center justify-center bg-slate-50 p-4 sm:p-8">
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-50">
       {/* Decorative background - fixed so it doesn't break on scroll */}
       <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
         <div className="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] rounded-full bg-blue-200/40 blur-[100px]"></div>
         <div className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] rounded-full bg-indigo-200/40 blur-[100px]"></div>
       </div>
 
-      <div className="relative z-10 w-full max-w-md p-6 sm:p-8 bg-white/70 backdrop-blur-xl border border-white/40 rounded-3xl shadow-2xl animate-in fade-in zoom-in-95 duration-500 my-8">
-        
-        <button 
+      <div className="min-h-full w-full flex flex-col items-center justify-center p-4 sm:p-8">
+        <div className="relative z-10 w-full max-w-md p-6 sm:p-8 bg-white/70 backdrop-blur-xl border border-white/40 rounded-3xl shadow-2xl animate-in fade-in zoom-in-95 duration-500 my-8">
+          
+          <button 
           onClick={() => router.push('/portal')}
           className="absolute top-4 left-4 sm:top-6 sm:left-6 flex items-center gap-2 text-sm text-slate-500 hover:text-slate-800 transition-colors"
         >
@@ -125,6 +126,7 @@ function LoginForm() {
         </form>
 
 
+        </div>
       </div>
     </div>
   );
