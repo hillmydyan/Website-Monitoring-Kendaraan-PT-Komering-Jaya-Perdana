@@ -83,6 +83,18 @@ export default function PortalPage() {
             </div>
           </Card>
         </div>
+
+        {/* Admin Login Link */}
+        <div className="mt-12 text-center">
+          <button 
+            onClick={() => router.push('/login')}
+            className="text-sm font-medium text-slate-400 hover:text-slate-600 transition-colors flex items-center justify-center gap-2 mx-auto"
+          >
+            <ShieldCheck className="w-4 h-4" />
+            Admin Area
+          </button>
+        </div>
+        
         </div>
       </div>
     </div>
