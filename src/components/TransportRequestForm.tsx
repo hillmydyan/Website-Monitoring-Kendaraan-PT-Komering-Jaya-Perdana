@@ -13,7 +13,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { Loader2, Eraser, CheckCircle2 } from "lucide-react";
+import { Loader2, Eraser, CheckCircle2, Upload, PenTool, X } from "lucide-react";
 
 const formSchema = z.object({
   employee_name: z.string().min(2, "Nama terlalu pendek"),
@@ -36,6 +36,10 @@ export function TransportRequestForm() {
   const [sigError, setSigError] = useState("");
   const router = useRouter();
   const { addRequest } = useDatabase();
+  
+  const [signatureMethod, setSignatureMethod] = useState<'draw' | 'upload'>('draw');
+  const [uploadedSignature, setUploadedSignature] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const { register, handleSubmit, formState: { errors } } = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -46,19 +50,45 @@ export function TransportRequestForm() {
     setSigError("");
   };
 
-  const onSubmit = async (data: FormValues) => {
-    if (sigCanvas.current?.isEmpty()) {
-      setSigError("Tanda tangan wajib diisi");
-      return;
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (file.size > 2 * 1024 * 1024) {
+        setSigError("Ukuran file maksimal 2MB");
+        return;
+      }
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setUploadedSignature(reader.result as string);
+        setSigError("");
+      };
+      reader.readAsDataURL(file);
     }
+  };
+
+  const onSubmit = async (data: FormValues) => {
+    let signatureBase64 = "";
+
+    if (signatureMethod === 'draw') {
+      if (sigCanvas.current?.isEmpty()) {
+        setSigError("Tanda tangan wajib diisi");
+        return;
+      }
+      signatureBase64 = sigCanvas.current?.getTrimmedCanvas().toDataURL("image/png") || "";
+    } else {
+      if (!uploadedSignature) {
+        setSigError("Tanda tangan wajib diunggah");
+        return;
+      }
+      signatureBase64 = uploadedSignature;
+    }
+
+    if (!signatureBase64) return;
+
     setSigError("");
     setIsSubmitting(true);
 
     try {
-      const signatureBase64 = sigCanvas.current?.getTrimmedCanvas().toDataURL("image/png");
-      
-      if (!signatureBase64) return;
-      
       addRequest({
         ...data,
         user_signature_url: signatureBase64,
@@ -176,27 +206,87 @@ export function TransportRequestForm() {
 
           {/* Bagian 3: Tanda Tangan */}
           <div className="space-y-4">
-            <div className="flex justify-between items-end">
+            <div className="flex flex-col sm:flex-row justify-between sm:items-end gap-3">
               <h3 className="font-semibold text-slate-900 text-lg flex items-center gap-2">
                 <span className="flex items-center justify-center w-6 h-6 rounded-full bg-blue-100 text-blue-700 text-sm">3</span>
                 Tanda Tangan
               </h3>
-              <Button type="button" variant="outline" size="sm" onClick={clearSignature} className="text-slate-500 h-8">
-                <Eraser className="w-4 h-4 mr-2" /> Ulangi
-              </Button>
-            </div>
-            <div className={`border-2 border-dashed rounded-xl bg-slate-50/50 relative overflow-hidden transition-colors ${sigError ? "border-red-400 bg-red-50/30" : "border-slate-200 hover:bg-slate-50 hover:border-blue-300"}`}>
-              <SignatureCanvas
-                ref={sigCanvas}
-                penColor="black"
-                canvasProps={{
-                  className: "w-full h-48 cursor-crosshair",
-                }}
-              />
-              <div className="absolute bottom-2 right-4 text-xs font-medium text-slate-400 pointer-events-none select-none">
-                Tanda tangan di atas area ini
+              
+              <div className="flex bg-slate-100 p-1 rounded-lg">
+                <button
+                  type="button"
+                  onClick={() => setSignatureMethod('draw')}
+                  className={`flex items-center gap-2 px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${signatureMethod === 'draw' ? 'bg-white text-blue-700 shadow-sm' : 'text-slate-600 hover:text-slate-900'}`}
+                >
+                  <PenTool className="w-4 h-4" /> Gambar
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setSignatureMethod('upload')}
+                  className={`flex items-center gap-2 px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${signatureMethod === 'upload' ? 'bg-white text-blue-700 shadow-sm' : 'text-slate-600 hover:text-slate-900'}`}
+                >
+                  <Upload className="w-4 h-4" /> Unggah
+                </button>
               </div>
             </div>
+
+            {signatureMethod === 'draw' ? (
+              <div className="space-y-2">
+                <div className="flex justify-end">
+                  <Button type="button" variant="outline" size="sm" onClick={clearSignature} className="text-slate-500 h-8">
+                    <Eraser className="w-4 h-4 mr-2" /> Bersihkan
+                  </Button>
+                </div>
+                <div className={`border-2 border-dashed rounded-xl bg-slate-50/50 relative overflow-hidden transition-colors ${sigError ? "border-red-400 bg-red-50/30" : "border-slate-200 hover:bg-slate-50 hover:border-blue-300"}`}>
+                  <SignatureCanvas
+                    ref={sigCanvas}
+                    penColor="black"
+                    canvasProps={{
+                      className: "w-full h-48 cursor-crosshair",
+                    }}
+                  />
+                  <div className="absolute bottom-2 right-4 text-xs font-medium text-slate-400 pointer-events-none select-none">
+                    Tanda tangan di atas area ini
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="space-y-2">
+                <input 
+                  type="file" 
+                  accept="image/png, image/jpeg, image/jpg" 
+                  ref={fileInputRef} 
+                  onChange={handleFileUpload} 
+                  className="hidden" 
+                />
+                
+                {!uploadedSignature ? (
+                  <div 
+                    onClick={() => fileInputRef.current?.click()}
+                    className={`border-2 border-dashed rounded-xl h-48 flex flex-col items-center justify-center cursor-pointer transition-colors ${sigError ? "border-red-400 bg-red-50/30 text-red-500" : "border-slate-200 bg-slate-50/50 hover:bg-blue-50/50 hover:border-blue-300 text-slate-500"}`}
+                  >
+                    <Upload className="w-8 h-8 mb-2 opacity-50" />
+                    <p className="font-medium">Klik untuk mengunggah gambar</p>
+                    <p className="text-xs opacity-70 mt-1">Format: JPG, PNG (Maks 2MB)</p>
+                  </div>
+                ) : (
+                  <div className="border-2 border-slate-200 rounded-xl p-4 bg-white relative flex justify-center">
+                    <div className="absolute top-2 right-2">
+                      <button 
+                        type="button" 
+                        onClick={() => setUploadedSignature(null)}
+                        className="p-1.5 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 transition-colors"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={uploadedSignature} alt="Signature Preview" className="h-40 object-contain" />
+                  </div>
+                )}
+              </div>
+            )}
+            
             {sigError && <p className="text-sm text-red-500">{sigError}</p>}
           </div>
 
